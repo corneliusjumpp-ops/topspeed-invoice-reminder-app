@@ -1,0 +1,14 @@
+:root{--navy:#14213d;--gold:#d4a017;--bg:#f4f7fb;--card:#fff;--line:#dbe3ef;--muted:#667085;--red:#b42318;--green:#067647}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#172033}
+header{background:linear-gradient(135deg,var(--navy),#28496f);color:#fff;padding:20px}
+header h1{margin:0;font-size:23px}header p{margin:5px 0 0;color:#dbe7f5}
+main{max-width:1100px;margin:auto;padding:16px}.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{font-size:28px;font-weight:800}.muted{color:var(--muted);font-size:12px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}label{display:block;font-size:12px;font-weight:700;margin:9px 0 5px}
+input,select,textarea,button{width:100%;padding:10px;border:1px solid var(--line);border-radius:9px;font:inherit}button{border:none;background:var(--navy);color:#fff;font-weight:800;cursor:pointer}
+.gold{background:var(--gold);color:#111}.gray{background:#667085}.red{background:var(--red)}.green{background:var(--green)}
+.actions{display:flex;gap:7px;flex-wrap:wrap}.actions button{width:auto}.badge{padding:4px 8px;border-radius:999px;font-size:11px;font-weight:800}
+.paid{background:#dcfae6;color:var(--green)}.unpaid{background:#fff2cc;color:#8a6100}.overdue{background:#fee4e2;color:var(--red)}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left}
+.notice{background:#fff8dd;border:1px solid #efd173;border-radius:9px;padding:10px;margin-bottom:12px}
+@media(max-width:750px){.grid{grid-template-columns:1fr 1fr}.row{grid-template-columns:1fr}table{display:block;overflow-x:auto}}
