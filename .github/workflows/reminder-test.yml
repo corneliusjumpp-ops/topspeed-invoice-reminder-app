@@ -1,10 +1,16 @@
-name: Reminder Test
+name: Topspeed Automatic Invoice Reminders
 
 on:
+  schedule:
+    - cron: "0 13 * * *"
   workflow_dispatch:
 
 jobs:
-  test:
+  send-reminders:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "GitHub Actions is working"
+      - name: Send automatic invoice reminders
+        run: |
+          curl --fail --show-error --silent \
+            -X GET "${{ secrets.APP_URL }}/api/cron-reminders" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}"
