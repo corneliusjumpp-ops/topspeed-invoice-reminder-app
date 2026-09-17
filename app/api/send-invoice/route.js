@@ -48,14 +48,18 @@ export async function POST(req) {
       .single()
 
     if (error || !i) {
-      return Response.json({ error: 'Invoice not found' }, { status: 404 })
+      return Response.json(
+        { error: 'Invoice not found' },
+        { status: 404 }
+      )
     }
 
     const paymentLink =
       i.status === 'paid' ? '' : await makePaymentLink(i)
 
     const text =
-      `TopSpeed Piano Moving LLC invoice ${i.invoice_number || ''}\n` +
+      `TopSpeed Piano Moving LLC\n` +
+      `Invoice ${i.invoice_number || ''}\n` +
       `${i.description}\n` +
       `Amount: $${Number(i.amount).toFixed(2)}\n` +
       `Due: ${i.due_date}\n` +
@@ -99,9 +103,12 @@ export async function POST(req) {
     })
 
     return Response.json({
-      message: `Invoice sent by ${sent.join(' and ') || 'no channel'} with Pay Now link.
+      message: `Invoice sent by ${sent.join(' and ') || 'no channel'} with Pay Now link.`
     })
   } catch (e) {
-    return Response.json({ error: e.message }, { status: 500 })
+    return Response.json(
+      { error: e.message },
+      { status: 500 }
+    )
   }
 }
