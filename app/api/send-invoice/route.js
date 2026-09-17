@@ -175,28 +175,31 @@ export async function POST(req) {
       sent.push('email')
     }
 
-    if (i.phone) { const smsText =
-  `TopSpeed Piano Moving LLC\n` +
-  `Invoice ${i.invoice_number || ''}\n` +
-  `${i.description}\n` +
-  `Amount: $${Number(i.amount).toFixed(2)}\n` +
-  `Due: ${i.due_date}\n\n` +
-  (paymentLink ? `Pay by card: ${paymentLink}\n\n` : '') +
-  `Zelle: 727-269-1085\n` +
-  `Please include invoice ${i.invoice_number || ''} in the Zelle memo.
-      const client = twilio(
-        process.env.TWILIO_ACCOUNT_SID,
-        process.env.TWILIO_AUTH_TOKEN
-      )
+    if (i.phone) {
+  const smsText =
+    "TopSpeed Piano Moving LLC\n" +
+    "Invoice " + (i.invoice_number || "") + "\n" +
+    i.description + "\n" +
+    "Amount: $" + Number(i.amount).toFixed(2) + "\n" +
+    "Due: " + i.due_date + "\n\n" +
+    (paymentLink ? "Pay by card: " + paymentLink + "\n\n" : "") +
+    "Zelle: 727-269-1085\n" +
+    "Please include invoice " + (i.invoice_number || "") + " in the Zelle memo."
 
-      await client.messages.create({
-        from: process.env.TWILIO_FROM_NUMBER,
-        to: i.phone,
-        body: smstext
-      })
+  const client = twilio(
+    process.env.TWILIO_ACCOUNT_SID,
+    process.env.TWILIO_AUTH_TOKEN
+  )
 
-      sent.push('text')
-    }
+  await client.messages.create({
+    from: process.env.TWILIO_FROM_NUMBER,
+    to: i.phone,
+    body: smsText
+  })
+
+  sent.push('text')
+}
+
 
     await db.from('invoice_events').insert({
       invoice_id: i.id,
