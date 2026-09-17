@@ -150,7 +150,7 @@ export async function POST(req) {
     </div>
   </div>
 `
- 
+    const text =
       `TopSpeed Piano Moving LLC\n` +
       `Invoice ${i.invoice_number || ''}\n` +
       `${i.description}\n` +
