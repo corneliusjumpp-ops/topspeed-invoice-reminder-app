@@ -29,7 +29,7 @@ async function makePaymentLink(i) {
         invoice_id: String(i.id)
       }
     },
-    success_url: `${process.env.NEXT_PUBLIC_APP_URL}/?payment=success`,
+    success_url: `${process.env.NEXT_PUBLIC_APP_URL}/payment-success`,
     cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/?payment=cancelled`
   })
 
