@@ -57,7 +57,100 @@ export async function POST(req) {
     const paymentLink =
       i.status === 'paid' ? '' : await makePaymentLink(i)
 
-    const text =
+    const html = `
+  <div style="font-family:Arial,sans-serif;background:#f4f7f9;padding:24px;color:#132238;">
+    <div style="max-width:700px;margin:auto;background:#ffffff;border-radius:14px;overflow:hidden;border:1px solid #d9e2e8;">
+
+      <div style="background:#075b73;color:white;padding:28px;">
+        <h1 style="margin:0;font-size:28px;">TOPSPEED PIANO MOVING LLC</h1>
+        <p style="margin:8px 0 0;">Piano Moving • Specialty Moving • Piano Storage</p>
+      </div>
+
+      <div style="padding:28px;">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="vertical-align:top;">
+              <strong>BILL TO:</strong><br><br>
+              ${i.customer_name || i.name || 'Customer'}<br>
+              ${i.phone || ''}<br>
+              ${i.email || ''}
+            </td>
+
+            <td style="text-align:right;vertical-align:top;">
+              <strong>INVOICE #</strong><br>
+              ${i.invoice_number || ''}<br><br>
+              <strong>DUE DATE</strong><br>
+              ${i.due_date}
+            </td>
+          </tr>
+        </table>
+
+        <div style="background:#eef8fb;padding:18px;margin:26px 0;text-align:center;border-radius:10px;">
+          <div style="font-size:14px;font-weight:bold;">BALANCE DUE</div>
+          <div style="font-size:36px;font-weight:bold;">
+            $${Number(i.amount).toFixed(2)}
+          </div>
+        </div>
+
+        <table width="100%" cellpadding="12" cellspacing="0" style="border-collapse:collapse;">
+          <tr style="background:#075b73;color:white;">
+            <th align="left">DESCRIPTION</th>
+            <th align="center">QTY</th>
+            <th align="right">AMOUNT</th>
+          </tr>
+
+          <tr>
+            <td style="border-bottom:1px solid #ddd;">${i.description}</td>
+            <td align="center" style="border-bottom:1px solid #ddd;">1</td>
+            <td align="right" style="border-bottom:1px solid #ddd;">
+              $${Number(i.amount).toFixed(2)}
+            </td>
+          </tr>
+
+          <tr>
+            <td></td>
+            <td align="right"><strong>TOTAL DUE</strong></td>
+            <td align="right"><strong>$${Number(i.amount).toFixed(2)}</strong></td>
+          </tr>
+        </table>
+
+        <div style="margin-top:30px;padding:22px;border:1px solid #d9e2e8;border-radius:10px;">
+          <h2 style="margin-top:0;">Payment Options</h2>
+
+          ${
+            paymentLink
+              ? `<a href="${paymentLink}"
+                   style="display:inline-block;background:#075b73;color:white;text-decoration:none;padding:14px 22px;border-radius:8px;font-weight:bold;margin-bottom:20px;">
+                   Pay Securely With Card
+                 </a>`
+              : ''
+          }
+
+          <div style="margin-top:18px;">
+            <strong style="font-size:18px;">Pay with Zelle</strong><br>
+            Send payment to: <strong>727-269-1085</strong><br>
+            <span style="font-size:13px;">
+              Please include invoice ${i.invoice_number || ''} in the memo.
+            </span>
+          </div>
+        </div>
+
+        <div style="margin-top:28px;font-size:13px;line-height:1.6;color:#445;">
+          <strong>Terms & Conditions</strong><br>
+          Payment is due upon receipt unless otherwise agreed in writing.<br>
+          Please contact TopSpeed Piano Moving LLC with any questions.
+        </div>
+      </div>
+
+      <div style="background:#075b73;color:white;text-align:center;padding:22px;">
+        <strong>Thank You!</strong><br>
+        We Appreciate Your Business
+      </div>
+
+    </div>
+  </div>
+`
+ 
       `TopSpeed Piano Moving LLC\n` +
       `Invoice ${i.invoice_number || ''}\n` +
       `${i.description}\n` +
@@ -75,7 +168,8 @@ export async function POST(req) {
         from: process.env.FROM_EMAIL,
         to: i.email,
         subject: `TopSpeed Invoice ${i.invoice_number || ''} - ${i.description}`,
-        text
+        text,
+        html
       })
 
       sent.push('email')
