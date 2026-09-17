@@ -99,7 +99,7 @@ export async function POST(req) {
     })
 
     return Response.json({
-      message: `Invoice sent by ${sent.join(' and ') || 'no channel'} with Pay Now link.`
+      message: `Invoice sent by ${sent.join(' and ') || 'no channel'} with Pay Now link.
     })
   } catch (e) {
     return Response.json({ error: e.message }, { status: 500 })
