@@ -23,7 +23,7 @@ export function middleware(request) {
 
   const loggedIn = request.cookies.get('topspeed_admin')?.value
 
-  if (loggedIn) {
+  if (!loggedIn) {
     return NextResponse.redirect(new URL('/admin-login', request.url))
   }
 
