@@ -1,5 +1,6 @@
 import Stripe from 'stripe'
 import { Resend } from 'resend'
+import twilio from 'twilio'
 import { adminDb } from '../../../lib/supabase'
 
 export async function POST(req) {
@@ -66,6 +67,30 @@ TopSpeed Piano Moving LLC`
   })
 }
 
+
+if (invoice?.phone) {
+  const client = twilio(
+    process.env.TWILIO_ACCOUNT_SID,
+    process.env.TWILIO_AUTH_TOKEN
+  )
+
+  await client.messages.create({
+    from: process.env.TWILIO_FROM_NUMBER,
+    to: invoice.phone,
+    body: `TOPSPEED PIANO MOVING LLC
+
+PAYMENT RECEIPT
+
+Customer: ${invoice.customer_name || ''}
+Invoice: ${invoice.invoice_number || ''}
+Description: ${invoice.description || ''}
+Amount Paid: $${Number(invoice.amount).toFixed(2)}
+Status: PAID
+
+Thank you for your payment.`
+  })
+}
+      
     }
 
     return Response.json({ received: true })
