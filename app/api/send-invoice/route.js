@@ -13,7 +13,7 @@ async function makePaymentLink(i) {
       {
         price_data: {
           currency: 'usd',
-          unit_amount: Math.round(Number(i.amount) * 100),
+          unit_amount: Math.round(((Number(i.amount) + 0.30) / 0.971) * 100),
           product_data: {
             name: `TopSpeed Invoice ${i.invoice_number || ''} - ${i.description}`
           }
