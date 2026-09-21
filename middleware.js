@@ -10,7 +10,10 @@ export function middleware(request) {
   ) {
     return NextResponse.next()
   }
-
+// Allow invoice API
+if (pathname.startsWith('/api/send-invoice')) {
+  return NextResponse.next()
+}
   // Allow Stripe webhook
   if (pathname.startsWith('/api/stripe-webhook')) {
     return NextResponse.next()
