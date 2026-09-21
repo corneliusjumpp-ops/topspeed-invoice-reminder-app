@@ -1,4 +1,5 @@
 import Stripe from 'stripe'
+import { Resend } from 'resend'
 import { adminDb } from '../../../lib/supabase'
 
 export async function POST(req) {
@@ -35,6 +36,36 @@ export async function POST(req) {
           details: `Stripe payment completed: ${session.id}`
         })
       }
+
+      const { data: invoice } = await db
+  .from('invoices')
+  .select('*')
+  .eq('id', invoiceId)
+  .single()
+
+if (invoice?.email) {
+  const resend = new Resend(process.env.RESEND_API_KEY)
+
+  await resend.emails.send({
+    from: process.env.FROM_EMAIL,
+    to: invoice.email,
+    subject: `Payment Receipt - ${invoice.invoice_number || 'TopSpeed Invoice'}`,
+    text: `TOPSPEED PIANO MOVING LLC
+
+PAYMENT RECEIPT
+
+Customer: ${invoice.customer_name || ''}
+Invoice: ${invoice.invoice_number || ''}
+Description: ${invoice.description || ''}
+Amount Paid: $${Number(invoice.amount).toFixed(2)}
+Status: PAID
+
+Thank you for your payment.
+
+TopSpeed Piano Moving LLC`
+  })
+}
+
     }
 
     return Response.json({ received: true })
