@@ -5,6 +5,7 @@ import { adminDb } from '../../../lib/supabase'
 
 export async function POST(req) {
   try {
+    const db=admindb()
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
     const signature = req.headers.get('stripe-signature')
     const body = await req.text()
@@ -20,7 +21,7 @@ export async function POST(req) {
       const invoiceId = session.metadata?.invoice_id
 
       if (invoiceId) {
-        const db = adminDb()
+        const db = admindb()
 
         const { error } = await db
           .from('invoices')
