@@ -1,0 +1,9 @@
+{
+  "name": "Topspeed Invoice & Reminder",
+  "short_name": "Topspeed Invoice",
+  "description": "Invoice and payment management for Topspeed Piano Moving LLC",
+  "start_url": "/admin-login",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff"
+}
