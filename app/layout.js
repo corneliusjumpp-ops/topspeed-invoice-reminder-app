@@ -3,7 +3,11 @@ export const metadata = {
   title: 'TopSpeed Invoice & Reminder',
   description: 'Invoice and reminder app',
   manifest: '/manifest.webmanifest',
-  appleWebApp: {
+  icons: {
+  apple: '/icon-192.png',
+  icon: '/icon-192.png'
+},
+appleWebApp: {
     capable: true,
     title: 'Topspeed Invoice',
     statusBarStyle: 'default'
